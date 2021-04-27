@@ -20,7 +20,7 @@ def routes_config(app: Flask):
     app.url_map.converters["regex"] = RegexConverter
 
     from ..rests.health_rest import api as health_api
-
+    print(health_api)
     routes = [
             health_api,
         ]

@@ -14,11 +14,11 @@ def openapi_config(app: Flask) -> None:
     app.config["OPENAPI_REDOC_URL"] = "https://cdn.jsdelivr.net/npm/redoc@next/bundles/redoc.standalone.js"
 
     openapi_info = {
-        "title": "Central de Comunicação",
+        "title": "Martial art manager",
         "description": "Martial art manager",
-        # "x-logo": {"url": "/static/logo.png"},
+        "x-logo": {"url": "/static/logo.jpeg"},
     }
-    app.config["API_TITLE"] = "Central de Comunicação"
+    app.config["API_TITLE"] = "Martial art manager"
     app.config["API_SPEC_OPTIONS"] = {
         "info": openapi_info,
     }

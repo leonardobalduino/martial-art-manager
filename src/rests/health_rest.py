@@ -1,12 +1,10 @@
-from http import HTTPStatus
-
-from flask import Blueprint
+from ..rests.base import Blueprint
 
 api = Blueprint(
-    "Health",
-    "health_rest",
-    url_prefix="/api/health",
-)
+     name="Health",
+     import_name="health_rest",
+     url_prefix="/api/health",
+ )
 
 
 @api.route("/version", methods=["GET"])
