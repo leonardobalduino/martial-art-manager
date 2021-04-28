@@ -9,3 +9,32 @@ class GraduationBo:
         graduation = Graduation(**new)
         graduation.save()
         return graduation
+
+    def update(
+            self,
+            graduation_id: any,
+            graduation: dict,
+            ignore_value_none=False
+    ) -> Graduation:
+        """
+        @param graduation: It is a dictionary
+        @param graduation_id: It is the key of the object
+        @param ignore_value_none: If TRUE it will ignore the values equals none
+        """
+        base_graduation = self.find_by_id(graduation_id)
+
+        for k, v in graduation.items():
+            if ignore_value_none:
+                if v is not None:
+                    base_graduation[k] = v
+            else:
+                base_graduation[k] = v
+
+        base_graduation.save()
+
+    def find_by_id(self, graduation_id: any) -> Graduation:
+        """
+        @param graduation_id: It is the key of the object
+        """
+        graduation = Graduation.objects.find_by_id(graduation_id)
+        return graduation

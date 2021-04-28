@@ -42,3 +42,32 @@ class NewGraduationRequest(Schema):
     order = Integer(
         metadata={"description": GraduationDescriptionEnum.ORDER.value},
     )
+
+
+class UpdateGraduationRequest(Schema):
+    """
+    Data to update a new graduation.
+    """
+    name = String(
+        required=False,
+        allow_none=True,
+        metadata={"description": GraduationDescriptionEnum.NAME.value},
+    )
+
+    description = String(
+        required=False,
+        allow_none=True,
+        metadata={"description": GraduationDescriptionEnum.DESCRIPTION.value},
+    )
+
+    color = String(
+        required=False,
+        allow_none=True,
+        metadata={"description": GraduationDescriptionEnum.COLOR.value},
+    )
+
+    order = Integer(
+        required=False,
+        allow_none=True,
+        metadata={"description": GraduationDescriptionEnum.ORDER.value},
+    )
