@@ -49,6 +49,21 @@ def find_by_id(graduation_id):
     return graduation_bo.find_by_id(graduation_id)
 
 
+@api.route("/", methods=["GET"])
+@api.response(
+    status_code=HTTPStatus.OK,
+    schema=GraduationResponse(many=True),
+    description="""
+    In case of success, the application informs all graduations in the system.""",
+)
+def find_all():
+    """
+    Get all graduations.
+    """
+    graduation_bo = GraduationBo()
+    return graduation_bo.find_all()
+
+
 @api.route("/<graduation_id>", methods=["PATCH"])
 @api.arguments(UpdateGraduationRequest, required=True,)
 @api.response(

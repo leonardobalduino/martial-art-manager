@@ -38,3 +38,6 @@ class GraduationBo:
         """
         graduation = Graduation.objects.find_by_id(graduation_id)
         return graduation
+
+    def find_all(self):
+        return Graduation.objects.find_all()
