@@ -1,7 +1,9 @@
 from http import HTTPStatus
 
 from ..businesses.health_bo import HealthBo
+from ..configs.cache_config import cache
 from ..rest.base import Blueprint
+from ..utils import settings
 
 api = Blueprint(
      name="Health",
@@ -15,7 +17,7 @@ def get_version():
     """
     Version of API.
     """
-    return "0.0.0"
+    return settings.get_version()
 
 
 @api.route("", methods=["GET"])
@@ -28,10 +30,11 @@ def get_version():
     - `version`: Version of API.
     """,
 )
+@cache.cached(timeout=60)
 def ping():
     """
     "Health" of application.
     """
     health_bo = HealthBo()
     health_bo.ping_db()
-    return {"alive": True, "version": "get_app_version()"}
+    return {"alive": True, "version": settings.get_version()}

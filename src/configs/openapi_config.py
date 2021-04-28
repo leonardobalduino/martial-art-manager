@@ -1,9 +1,11 @@
 from flask import Flask
 
+from src.rest.health_rest import get_version
+
 
 def openapi_config(app: Flask) -> None:
     app.config["OPENAPI_VERSION"] = "3.0.2"
-    app.config["API_VERSION"] = "0.0.0"
+    app.config["API_VERSION"] = get_version()
 
     app.config["OPENAPI_JSON_PATH"] = "/api/api-sec.json"
     app.config["OPENAPI_URL_PREFIX"] = "/api"
