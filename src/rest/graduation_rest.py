@@ -1,6 +1,11 @@
 from http import HTTPStatus
 
-from .schema.graduation_schema import NewGraduationRequest, GraduationIdResponse, UpdateGraduationRequest
+from .schema.graduation_schema import (
+    NewGraduationRequest,
+    UpdateGraduationRequest,
+    GraduationResponse,
+    GraduationIdResponse
+)
 from ..businesses.graduation_bo import GraduationBo
 from ..rest.base import Blueprint
 
@@ -26,6 +31,22 @@ def save(new):
     """
     graduation_bo = GraduationBo()
     return graduation_bo.save(new)
+
+
+@api.route("/<graduation_id>", methods=["GET"])
+@api.response(
+    status_code=HTTPStatus.OK,
+    schema=GraduationResponse,
+    description="""
+    In case of success, the application informs the key that will identify
+     only graduation in the system.""",
+)
+def find_by_id(graduation_id):
+    """
+    Find by id of the graduation.
+    """
+    graduation_bo = GraduationBo()
+    return graduation_bo.find_by_id(graduation_id)
 
 
 @api.route("/<graduation_id>", methods=["PATCH"])

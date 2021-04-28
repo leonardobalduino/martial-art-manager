@@ -20,6 +20,29 @@ class GraduationIdResponse(Schema):
     id = String(metadata={"description": GraduationDescriptionEnum.ID.value}, )
 
 
+class GraduationResponse(Schema):
+    """
+    graduation.
+    """
+
+    id = String(metadata={"description": GraduationDescriptionEnum.ID.value}, )
+
+    name = String(
+        metadata={"description": GraduationDescriptionEnum.NAME.value},
+    )
+
+    description = String(
+        metadata={"description": GraduationDescriptionEnum.DESCRIPTION.value},
+    )
+
+    color = String(
+        metadata={"description": GraduationDescriptionEnum.COLOR.value},
+    )
+
+    order = Integer(
+        metadata={"description": GraduationDescriptionEnum.ORDER.value},
+    )
+
 class NewGraduationRequest(Schema):
     """
     Data to create a new graduation.
