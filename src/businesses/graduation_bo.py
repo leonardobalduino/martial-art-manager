@@ -41,3 +41,10 @@ class GraduationBo:
 
     def find_all(self):
         return Graduation.objects.find_all()
+
+    def delete(self, graduation_id: any) -> Graduation:
+        """
+        @param graduation_id: It is the key of the object
+        """
+        graduation = Graduation.objects.find_by_id(graduation_id)
+        graduation.delete()

@@ -77,3 +77,17 @@ def update_patch(graduation, graduation_id):
     """
     graduation_bo = GraduationBo()
     return graduation_bo.update(graduation_id, graduation)
+
+
+@api.route("/<graduation_id>", methods=["DELETE"])
+@api.response(
+    status_code=HTTPStatus.NO_CONTENT,
+    description="""
+    Record deleted.""",
+)
+def delete(graduation_id):
+    """
+    Delete a graduation.
+    """
+    graduation_bo = GraduationBo()
+    return graduation_bo.delete(graduation_id)
