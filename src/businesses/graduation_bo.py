@@ -1,4 +1,4 @@
-from ..domains.graduation import Graduation
+from ..models.graduation import Graduation
 
 
 class GraduationBo:

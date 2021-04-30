@@ -1,6 +1,6 @@
 from flask import Flask
 
-from src.rest.health_rest import get_version
+from src.rests.health_rest import get_version
 
 
 def openapi_config(app: Flask) -> None:

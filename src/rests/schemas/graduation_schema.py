@@ -43,6 +43,7 @@ class GraduationResponse(Schema):
         metadata={"description": GraduationDescriptionEnum.ORDER.value},
     )
 
+
 class NewGraduationRequest(Schema):
     """
     Data to create a new graduation.

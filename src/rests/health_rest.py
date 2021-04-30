@@ -2,7 +2,7 @@ from http import HTTPStatus
 
 from ..businesses.health_bo import HealthBo
 from ..configs.cache_config import cache
-from ..rest.base import Blueprint
+from ..rests.base import Blueprint
 from ..utils import settings
 
 api = Blueprint(

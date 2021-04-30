@@ -19,11 +19,13 @@ def register_routes(app: Flask, routes: list):
 def routes_config(app: Flask):
     app.url_map.converters["regex"] = RegexConverter
 
-    from ..rest.health_rest import api as health_api
-    from ..rest.graduation_rest import api as graduation_api
+    from ..rests.health_rest import api as health_api
+    from ..rests.graduation_rest import api as graduation_api
+    from ..rests.user_rest import api as user_api
 
     routes = [
             health_api,
+            user_api,
             graduation_api,
         ]
     register_routes(app, routes)
