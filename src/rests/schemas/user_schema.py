@@ -12,6 +12,7 @@ class UserDescriptionEnum(Enum):
     EMAIL = "Order of user."
     ACTIVE = "Identify user active"
     ROLES = "Roles of user."
+    ACCESS_TOKEN = "Access token"
 
 
 class UserIdResponse(Schema):
@@ -105,4 +106,30 @@ class UpdateUserRequest(Schema):
         required=False,
         allow_none=True,
         metadata={"description": UserDescriptionEnum.ACTIVE.value},
+    )
+
+
+class AuthenticationRequest(Schema):
+    """
+    Data to authentication of the user.
+    """
+
+    login = String(
+        required=True,
+        metadata={"description": UserDescriptionEnum.LOGIN.value},
+    )
+
+    password = String(
+        required=True,
+        metadata={"description": UserDescriptionEnum.PASSWORD.value},
+    )
+
+
+class AccessTokenResponse(Schema):
+    """
+    Access token of the user.
+    """
+
+    access_token = String(
+        metadata={"description": UserDescriptionEnum.LOGIN.value},
     )

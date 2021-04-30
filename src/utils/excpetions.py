@@ -22,3 +22,12 @@ class NotFoundException(SystemException):
         super(NotFoundException, self).__init__(
             code=404, message=message, errors=errors, http_code=404
         )
+
+
+class UnAuthorizedException(SystemException):
+    def __init__(
+        self, message: str = "Unauthorized", errors: any = None,
+    ):
+        super(UnAuthorizedException, self).__init__(
+            code=401, message=message, errors=errors, http_code=401
+        )

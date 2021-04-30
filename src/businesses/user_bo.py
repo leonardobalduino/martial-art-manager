@@ -1,4 +1,5 @@
 from ..models.user import User
+from ..utils.excpetions import UnAuthorizedException
 
 
 class UserBo:
@@ -49,3 +50,20 @@ class UserBo:
         """
         user = User.objects.find_by_id(user_id)
         user.delete()
+
+    def login(self, auth: dict,) -> str:
+        """
+        @param auth: It is the dict that
+         contains login and password of the object
+        """
+        login = auth.get("login")
+        password = auth.get("password")
+        user: User = User.objects.find_by_login(login)
+
+        if user is None:
+            raise UnAuthorizedException()
+
+        if user.password != password or user.active is False or user.active is None:
+            raise UnAuthorizedException()
+
+        return user.name
