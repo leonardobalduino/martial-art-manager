@@ -1,7 +1,7 @@
 from bson import ObjectId
 from mongoengine import QuerySet, Document, Q
 
-from src.utils.excpetions import NotFoundException
+from src.utils.exceptions import NotFoundException
 
 
 def _is_object_id(value: any):

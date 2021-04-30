@@ -1,5 +1,8 @@
+from flask import jsonify
+
 from ..models.user import User
-from ..utils.excpetions import UnAuthorizedException
+from ..utils.exceptions import UnAuthorizedException
+from flask_jwt_extended import create_access_token
 
 
 class UserBo:
@@ -66,4 +69,17 @@ class UserBo:
         if user.password != password or user.active is False or user.active is None:
             raise UnAuthorizedException()
 
-        return user.name
+        additional_claims = {
+            "id": str(user.id),
+            "roles": user.roles,
+            "name": user.name,
+            "email": user.email,
+        }
+
+        access_token = create_access_token(
+            identity=str(user.id),
+            additional_claims=additional_claims,
+        )
+
+        return jsonify(access_token=access_token)
+

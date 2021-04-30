@@ -30,6 +30,4 @@ def login(auth):
     Authentication Login.
     """
     user_bo = UserBo()
-    access_token = user_bo.login(auth)
-
-    return {'access_token': access_token}, HTTPStatus.OK
+    return user_bo.login(auth)

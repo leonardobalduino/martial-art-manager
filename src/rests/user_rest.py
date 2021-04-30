@@ -1,5 +1,7 @@
 from http import HTTPStatus
 
+from flask_jwt_extended import jwt_required
+
 from .schemas.user_schema import (
     NewUserRequest,
     UpdateUserRequest,
@@ -7,7 +9,9 @@ from .schemas.user_schema import (
     UserIdResponse
 )
 from ..businesses.user_bo import UserBo
+from ..configs.jwt_config import check_role
 from ..rests.base import Blueprint
+from ..utils.enuns import Roles
 
 api = Blueprint(
      name="User",
@@ -17,6 +21,7 @@ api = Blueprint(
 
 
 @api.route("/", methods=["POST"])
+@check_role(role=Roles.MANAGE_USER.value)
 @api.arguments(NewUserRequest, required=True,)
 @api.response(
     status_code=HTTPStatus.CREATED,
@@ -50,6 +55,8 @@ def find_by_id(user_id):
 
 
 @api.route("/", methods=["GET"])
+@jwt_required()
+@check_role(role=Roles.MANAGE_USER.value)
 @api.response(
     status_code=HTTPStatus.OK,
     schema=UserResponse(many=True),
@@ -65,6 +72,7 @@ def find_all():
 
 
 @api.route("/<user_id>", methods=["PATCH"])
+@check_role(role=Roles.MANAGE_USER.value)
 @api.arguments(UpdateUserRequest, required=True,)
 @api.response(
     status_code=HTTPStatus.NO_CONTENT,
