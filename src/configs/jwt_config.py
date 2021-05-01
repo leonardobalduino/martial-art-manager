@@ -33,4 +33,9 @@ def check_role(role):
     if admin is False:
         permission = role in roles
         if permission is None or permission is False:
-            raise UnAuthorizedException(message="You do not have permission")
+            raise UnAuthorizedException(
+                message="You do not have permission",
+                errors={
+                    "permission": role
+                },
+            )

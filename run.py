@@ -37,7 +37,6 @@ def refresh_expiring_jwts(response):
         )
         recused = response.status_code in [400, 401, 403, 500]
         if recused is True:
-            set_access_cookies(response, None)
             return response
 
         if target_timestamp > exp_timestamp:
