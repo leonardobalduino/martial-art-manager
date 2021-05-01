@@ -1,5 +1,7 @@
 from http import HTTPStatus
 
+from flask_jwt_extended import jwt_required
+
 from .schemas.person_schema import (
     NewPersonRequest,
     UpdatePersonRequest,
@@ -19,7 +21,7 @@ api = Blueprint(
 
 
 @api.route("/", methods=["POST"])
-@check_role(role=Roles.MANAGE_REGISTER.value)
+@jwt_required()
 @api.arguments(NewPersonRequest, required=True,)
 @api.response(
     status_code=HTTPStatus.CREATED,
@@ -32,6 +34,8 @@ def save(new):
     """
     Create a new person.
     """
+    check_role(role=Roles.MANAGE_REGISTER.value)
+
     person_bo = PersonBo()
     return person_bo.save(new)
 
@@ -68,7 +72,7 @@ def find_all():
 
 
 @api.route("/<person_id>", methods=["PATCH"])
-@check_role(role=Roles.MANAGE_REGISTER.value)
+@jwt_required()
 @api.arguments(UpdatePersonRequest, required=True,)
 @api.response(
     status_code=HTTPStatus.NO_CONTENT,
@@ -79,12 +83,13 @@ def update_patch(person, person_id):
     """
     Update a person.
     """
+    check_role(role=Roles.MANAGE_REGISTER.value)
     person_bo = PersonBo()
     return person_bo.update(person_id, person)
 
 
 @api.route("/<person_id>", methods=["DELETE"])
-@check_role(role=Roles.ADMINISTRATOR.value)
+@jwt_required()
 @api.response(
     status_code=HTTPStatus.NO_CONTENT,
     description="""
@@ -94,5 +99,6 @@ def delete(person_id):
     """
     Delete a person.
     """
+    check_role(role=Roles.ADMINISTRATOR.value)
     person_bo = PersonBo()
     return person_bo.delete(person_id)

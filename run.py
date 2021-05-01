@@ -35,6 +35,10 @@ def refresh_expiring_jwts(response):
         target_timestamp = datetime.timestamp(
             now + get_jwt_access_token_expires()
         )
+        recused = response.status_code in [400, 401, 403, 500]
+        if recused is True:
+            set_access_cookies(response, None)
+            return response
 
         if target_timestamp > exp_timestamp:
             current_user = get_jwt()

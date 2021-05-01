@@ -1,7 +1,12 @@
 from enum import Enum
 
 from marshmallow import Schema
-from marshmallow.fields import String, Integer, DateTime, Dict
+from marshmallow.fields import (
+    String,
+    DateTime,
+    Dict,
+    Boolean,
+)
 
 
 class PersonDescriptionEnum(Enum):
@@ -98,7 +103,7 @@ class NewPersonRequest(Schema):
         metadata={"description": PersonDescriptionEnum.ADDRESS.value},
     )
 
-    active = Dict(
+    active = Boolean(
         metadata={"description": PersonDescriptionEnum.ACTIVE.value},
     )
 

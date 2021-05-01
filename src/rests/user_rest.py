@@ -21,7 +21,7 @@ api = Blueprint(
 
 
 @api.route("/", methods=["POST"])
-@check_role(role=Roles.MANAGE_USER.value)
+@jwt_required()
 @api.arguments(NewUserRequest, required=True,)
 @api.response(
     status_code=HTTPStatus.CREATED,
@@ -34,6 +34,7 @@ def save(new):
     """
     Create a new user.
     """
+    check_role(role=Roles.MANAGE_USER.value)
     user_bo = UserBo()
     return user_bo.save(new)
 
@@ -56,7 +57,6 @@ def find_by_id(user_id):
 
 @api.route("/", methods=["GET"])
 @jwt_required()
-@check_role(role=Roles.MANAGE_USER.value)
 @api.response(
     status_code=HTTPStatus.OK,
     schema=UserResponse(many=True),
@@ -67,12 +67,13 @@ def find_all():
     """
     Get all users.
     """
+    check_role(role=Roles.MANAGE_USER.value)
     user_bo = UserBo()
     return user_bo.find_all()
 
 
 @api.route("/<user_id>", methods=["PATCH"])
-@check_role(role=Roles.MANAGE_USER.value)
+@jwt_required()
 @api.arguments(UpdateUserRequest, required=True,)
 @api.response(
     status_code=HTTPStatus.NO_CONTENT,
@@ -83,6 +84,7 @@ def update_patch(user, user_id):
     """
     Update a user.
     """
+    check_role(role=Roles.MANAGE_USER.value)
     user_bo = UserBo()
     return user_bo.update(user_id, user)
 

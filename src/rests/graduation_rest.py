@@ -1,5 +1,7 @@
 from http import HTTPStatus
 
+from flask_jwt_extended import jwt_required
+
 from .schemas.graduation_schema import (
     NewGraduationRequest,
     UpdateGraduationRequest,
@@ -19,7 +21,7 @@ api = Blueprint(
 
 
 @api.route("/", methods=["POST"])
-@check_role(role=Roles.MANAGE_REGISTER.value)
+@jwt_required()
 @api.arguments(NewGraduationRequest, required=True,)
 @api.response(
     status_code=HTTPStatus.CREATED,
@@ -32,6 +34,7 @@ def save(new):
     """
     Create a new graduation.
     """
+    check_role(role=Roles.MANAGE_REGISTER.value)
     graduation_bo = GraduationBo()
     return graduation_bo.save(new)
 
@@ -68,7 +71,7 @@ def find_all():
 
 
 @api.route("/<graduation_id>", methods=["PATCH"])
-@check_role(role=Roles.MANAGE_REGISTER.value)
+@jwt_required()
 @api.arguments(UpdateGraduationRequest, required=True,)
 @api.response(
     status_code=HTTPStatus.NO_CONTENT,
@@ -79,12 +82,12 @@ def update_patch(graduation, graduation_id):
     """
     Update a graduation.
     """
+    check_role(role=Roles.MANAGE_REGISTER.value)
     graduation_bo = GraduationBo()
     return graduation_bo.update(graduation_id, graduation)
 
 
 @api.route("/<graduation_id>", methods=["DELETE"])
-@check_role(role=Roles.ADMINISTRATOR.value)
 @api.response(
     status_code=HTTPStatus.NO_CONTENT,
     description="""
