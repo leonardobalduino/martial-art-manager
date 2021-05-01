@@ -1,6 +1,7 @@
 from flask import jsonify
 
 from ..models.user import User
+from ..utils.cryptography import encrypt, decrypt
 from ..utils.enuns import Roles
 from ..utils.exceptions import UnAuthorizedException
 from flask_jwt_extended import create_access_token
@@ -15,6 +16,7 @@ class UserBo:
         """
         user = User(**new)
         user.active = False
+        user.password = encrypt(user.password)
         user.save()
         return user
 
@@ -69,7 +71,8 @@ class UserBo:
         if user is None:
             raise UnAuthorizedException()
 
-        if user.password != password or user.active is False or user.active is None:
+        dec_password = decrypt(user.password)
+        if dec_password != password or user.active is False or user.active is None:
             raise UnAuthorizedException()
 
         additional_claims = {
@@ -96,7 +99,7 @@ class UserBo:
         user = User()
         user.name = admin.get("name")
         user.login = admin.get("login")
-        user.password = admin.get("password")
+        user.password = encrypt(admin.get("password"))
         user.email = admin.get("email")
         user.active = True
         user.roles = [Roles.ADMINISTRATOR.value]
