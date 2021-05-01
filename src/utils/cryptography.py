@@ -2,11 +2,9 @@ from cryptography.fernet import Fernet
 
 from src.utils.settings import get_cryptography_key
 
-KEY = get_cryptography_key()
-
 
 def _get_instance_cryptography():
-    f = Fernet(KEY)
+    f = Fernet(get_cryptography_key())
     return f
 
 
