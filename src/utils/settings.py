@@ -31,7 +31,7 @@ def get_jwt_secret_key():
 
 
 def get_jwt_access_token_expires():
-    minutes = get_env_int("JWT_ACCESS_TOKEN_EXPIRES", 1)
+    minutes = get_env_int("JWT_ACCESS_TOKEN_EXPIRES", 60)
     return timedelta(minutes=minutes)
 
 

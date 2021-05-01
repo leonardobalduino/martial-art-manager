@@ -98,6 +98,7 @@ class UserBo:
         user.login = admin.get("login")
         user.password = admin.get("password")
         user.email = admin.get("email")
+        user.active = True
         user.roles = [Roles.ADMINISTRATOR.value]
         user.save()
         print("Created user admin")

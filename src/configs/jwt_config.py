@@ -5,7 +5,9 @@ from src.utils.enuns import Roles
 from src.utils.exceptions import UnAuthorizedException
 from src.utils.settings import (
     get_jwt_secret_key,
-    get_jwt_access_token_expires, get_redis_host, get_redis_port
+    get_jwt_access_token_expires,
+    get_redis_host,
+    get_redis_port
 )
 
 # Setup our redis connection for storing the blocklisted tokens. You will probably
@@ -37,5 +39,4 @@ def check_role(role):
             return func()
 
         return wrapper
-
     return decorator

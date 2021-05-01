@@ -1,5 +1,5 @@
 # Connection
-DB_URI=mongodb://mongo:27017/db_mongo
+DB_URI=mongodb://localhost:27017/db_mongo
 
 # JWT
 JWT_SECRET_KEY=DoNotSeeThis
