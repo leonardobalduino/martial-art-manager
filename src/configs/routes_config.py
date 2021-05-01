@@ -23,11 +23,13 @@ def routes_config(app: Flask):
     from ..rests.graduation_rest import api as graduation_api
     from ..rests.user_rest import api as user_api
     from ..rests.auth_rest import api as auth_api
+    from ..rests.person_rest import api as person_api
 
     routes = [
             health_api,
             auth_api,
             user_api,
             graduation_api,
+            person_api,
         ]
     register_routes(app, routes)

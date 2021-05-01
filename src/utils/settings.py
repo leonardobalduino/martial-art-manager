@@ -51,3 +51,7 @@ def get_admin_user():
         "email": get_env("USER_EMAIL", "admin@admin.com "),
     }
     return admin
+
+
+def get_cryptography_key():
+    return get_env("CRYPTOGRAPHY_KEY", "lk78Ylnfw3AL44dlZvMhDv1KG_4EmSkYEXvFuFakugc=")

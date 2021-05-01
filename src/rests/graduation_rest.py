@@ -7,7 +7,9 @@ from .schemas.graduation_schema import (
     GraduationIdResponse
 )
 from ..businesses.graduation_bo import GraduationBo
+from ..configs.jwt_config import check_role
 from ..rests.base import Blueprint
+from ..utils.enuns import Roles
 
 api = Blueprint(
      name="Graduation",
@@ -17,6 +19,7 @@ api = Blueprint(
 
 
 @api.route("/", methods=["POST"])
+@check_role(role=Roles.MANAGE_REGISTER.value)
 @api.arguments(NewGraduationRequest, required=True,)
 @api.response(
     status_code=HTTPStatus.CREATED,
@@ -65,6 +68,7 @@ def find_all():
 
 
 @api.route("/<graduation_id>", methods=["PATCH"])
+@check_role(role=Roles.MANAGE_REGISTER.value)
 @api.arguments(UpdateGraduationRequest, required=True,)
 @api.response(
     status_code=HTTPStatus.NO_CONTENT,
@@ -80,6 +84,7 @@ def update_patch(graduation, graduation_id):
 
 
 @api.route("/<graduation_id>", methods=["DELETE"])
+@check_role(role=Roles.ADMINISTRATOR.value)
 @api.response(
     status_code=HTTPStatus.NO_CONTENT,
     description="""
