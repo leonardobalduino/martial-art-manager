@@ -1,8 +1,11 @@
 from flask import jsonify
 
 from ..models.user import User
+from ..utils.enuns import Roles
 from ..utils.exceptions import UnAuthorizedException
 from flask_jwt_extended import create_access_token
+
+from ..utils.settings import get_admin_user
 
 
 class UserBo:
@@ -54,7 +57,7 @@ class UserBo:
         user = User.objects.find_by_id(user_id)
         user.delete()
 
-    def login(self, auth: dict,) -> str:
+    def login(self, auth: dict, ) -> str:
         """
         @param auth: It is the dict that
          contains login and password of the object
@@ -83,3 +86,18 @@ class UserBo:
 
         return jsonify(access_token=access_token)
 
+    def create_user_admin(self):
+        admin = get_admin_user()
+
+        user_admin = User.objects.find_by_login(admin.get("login"))
+        if user_admin:
+            return
+
+        user = User()
+        user.name = admin.get("name")
+        user.login = admin.get("login")
+        user.password = admin.get("password")
+        user.email = admin.get("email")
+        user.roles = [Roles.ADMINISTRATOR.value]
+        user.save()
+        print("Created user admin")

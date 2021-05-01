@@ -1,0 +1,16 @@
+# Connection
+DB_URI=mongodb://localhost:27017/db_mongo
+
+# JWT
+JWT_SECRET_KEY=DoNotSeeThis
+JWT_ACCESS_TOKEN_EXPIRES=1
+
+# REDIS
+REDIS_HOST=redis
+REDIS_PORT=6379
+
+# USER ADMIN
+USER_NAME=Admin
+USER_LOGIN=admin
+USER_PASSWORD=admin
+USER_EMAIL=admin@admin.com
