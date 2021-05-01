@@ -1,13 +1,13 @@
 from http import HTTPStatus
 
-from .schema.graduation_schema import (
+from .schemas.graduation_schema import (
     NewGraduationRequest,
     UpdateGraduationRequest,
     GraduationResponse,
     GraduationIdResponse
 )
 from ..businesses.graduation_bo import GraduationBo
-from ..rest.base import Blueprint
+from ..rests.base import Blueprint
 
 api = Blueprint(
      name="Graduation",

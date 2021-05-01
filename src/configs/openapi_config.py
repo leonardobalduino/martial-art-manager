@@ -1,13 +1,13 @@
 from flask import Flask
 
-from src.rest.health_rest import get_version
+from src.rests.health_rest import get_version
 
 
 def openapi_config(app: Flask) -> None:
     app.config["OPENAPI_VERSION"] = "3.0.2"
     app.config["API_VERSION"] = get_version()
 
-    app.config["OPENAPI_JSON_PATH"] = "/api/api-sec.json"
+    app.config["OPENAPI_JSON_PATH"] = "/martial-art-manager.json"
     app.config["OPENAPI_URL_PREFIX"] = "/api"
     app.config["OPENAPI_SWAGGER_UI_PATH"] = "/swagger/"
     app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
