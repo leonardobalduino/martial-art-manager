@@ -87,18 +87,22 @@ class UserBo:
         return jsonify(access_token=access_token)
 
     def create_user_admin(self):
-        admin = get_admin_user()
+        try:
+            admin = get_admin_user()
 
-        user_admin = User.objects.find_by_login(admin.get("login"))
-        if user_admin:
-            return
+            user_admin = User.objects.find_by_login(admin.get("login"))
+            if user_admin:
+                return
 
-        user = User()
-        user.name = admin.get("name")
-        user.login = admin.get("login")
-        user.password = admin.get("password")
-        user.email = admin.get("email")
-        user.active = True
-        user.roles = [Roles.ADMINISTRATOR.value]
-        user.save()
-        print("Created user admin")
+            user = User()
+            user.name = admin.get("name")
+            user.login = admin.get("login")
+            user.password = admin.get("password")
+            user.email = admin.get("email")
+            user.active = True
+            user.roles = [Roles.ADMINISTRATOR.value]
+
+            user.save()
+            print("Created user admin")
+        except Exception:
+            pass
