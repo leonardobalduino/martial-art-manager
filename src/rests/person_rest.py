@@ -1,12 +1,13 @@
 from http import HTTPStatus
 
+from flask import request
 from flask_jwt_extended import jwt_required
 
 from .schemas.person_schema import (
     NewPersonRequest,
     UpdatePersonRequest,
     PersonResponse,
-    PersonIdResponse
+    PersonIdResponse, ProfileImagePersonRequest, ProfileImagePersonResponse
 )
 from ..businesses.person_bo import PersonBo
 from ..configs.jwt_config import check_role
@@ -102,3 +103,25 @@ def delete(person_id):
     check_role(role=Roles.ADMINISTRATOR.value)
     person_bo = PersonBo()
     return person_bo.delete(person_id)
+
+
+@api.route("/<person_id>/profile-image/upload", methods=["PUT"])
+@jwt_required()
+@api.arguments(ProfileImagePersonRequest, required=True,)
+@api.response(
+    status_code=HTTPStatus.OK,
+    schema=ProfileImagePersonResponse,
+    description="""
+    Upload image of profile.""",
+)
+def profile_image_upload(file, person_id):
+    """
+    Upload image of profile of the person
+    """
+    check_role(role=Roles.MANAGE_REGISTER.value)
+
+    file = request.files.get("file")
+
+    person_bo = PersonBo()
+    image_base64 = person_bo.update_profile_image(person_id, file)
+    return {"file_base64": image_base64}

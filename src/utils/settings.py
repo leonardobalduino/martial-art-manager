@@ -55,3 +55,23 @@ def get_admin_user():
 
 def get_cryptography_key():
     return get_env("CRYPTOGRAPHY_KEY", "lk78Ylnfw3AL44dlZvMhDv1KG_4EmSkYEXvFuFakugc=")
+
+
+def get_upload_image_allowed_extensions():
+    return get_env_str_list(
+        "UPLOAD_IMAGE_ALLOWED_EXTENSIONS",
+        "png, jpg, jpeg, svg",
+        True
+    )
+
+
+def get_env_str_list(key, default=None, lower_case: bool = False) -> list:
+    value = get_env(key, default)
+    if lower_case:
+        value = value.lower()
+    if value is not None:
+        value = value.replace(" ", "")
+        value = [v for v in value.split(",")]
+    else:
+        value = []
+    return value

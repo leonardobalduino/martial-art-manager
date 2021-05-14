@@ -1,3 +1,6 @@
+from werkzeug.datastructures import FileStorage
+
+from .upload_bo import UploadBo
 from ..models.person import Person
 
 
@@ -48,3 +51,18 @@ class PersonBo:
         """
         person = Person.objects.find_by_id(person_id)
         person.delete()
+
+    def update_profile_image(
+            self,
+            person_id: any,
+            file: FileStorage
+    ) -> str:
+        person = Person.objects.find_by_id(person_id)
+
+        upload_bo = UploadBo()
+        image_base64 = upload_bo.get_image_base64(file)
+
+        person.profile_image = image_base64
+        person.save()
+
+        return image_base64

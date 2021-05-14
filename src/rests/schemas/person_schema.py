@@ -1,5 +1,6 @@
 from enum import Enum
 
+from flask_smorest.fields import Upload
 from marshmallow import Schema
 from marshmallow.fields import (
     String,
@@ -159,3 +160,14 @@ class UpdatePersonRequest(Schema):
         allow_none=True,
         metadata={"description": PersonDescriptionEnum.ACTIVE.value},
     )
+
+
+class ProfileImagePersonRequest(Schema):
+    file = Upload(description="File to be sent")
+
+
+class ProfileImagePersonResponse(Schema):
+    """
+    File base64.
+    """
+    file_base64 = String()
