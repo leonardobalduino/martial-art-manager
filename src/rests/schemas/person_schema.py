@@ -22,6 +22,8 @@ class PersonDescriptionEnum(Enum):
     ADDRESS = "Address of person."
     ACTIVE = "Identify person active."
     COUNCIL_MEMBER = "Identify person council member."
+    PROFILE_IMAGE = "Image of profile."
+    BIOGRAPHY = "Biography of person."
     GRADUATION_CURRENT = "Current graduation."
     GRADUATION_ID = "ID of graduation."
     GRADUATION_NAME = "Name of graduation."
@@ -99,6 +101,10 @@ class PersonResponse(Schema):
     council_member = Boolean(
         metadata={"description": PersonDescriptionEnum.COUNCIL_MEMBER.value},
     )
+
+    profile_image = String(metadata={"description": PersonDescriptionEnum.PROFILE_IMAGE.value}, )
+
+    biography = String(metadata={"description": PersonDescriptionEnum.BIOGRAPHY.value}, )
 
 
 class NewPersonRequest(Schema):
