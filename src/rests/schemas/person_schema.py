@@ -7,6 +7,7 @@ from marshmallow.fields import (
     DateTime,
     Dict,
     Boolean,
+    Nested,
 )
 
 
@@ -20,6 +21,27 @@ class PersonDescriptionEnum(Enum):
     SOCIAL_NETWORK = "Social network of person."
     ADDRESS = "Address of person."
     ACTIVE = "Identify person active."
+    COUNCIL_MEMBER = "Identify person council member."
+    GRADUATION_CURRENT = "Current graduation."
+    GRADUATION_ID = "ID of graduation."
+    GRADUATION_NAME = "Name of graduation."
+    GRADUATION_DESCRIPTION = "Description of graduation."
+    GRADUATION_COLOR = "Color of graduation."
+    GRADUATION_DATE = "Date of graduation."
+
+
+class Graduation(Schema):
+    graduation_id = String(metadata={"description": PersonDescriptionEnum.GRADUATION_ID.value}, )
+
+    name = String(metadata={"description": PersonDescriptionEnum.GRADUATION_NAME.value}, )
+
+    description = String(metadata={"description": PersonDescriptionEnum.GRADUATION_DESCRIPTION.value}, )
+
+    color = String(metadata={"description": PersonDescriptionEnum.GRADUATION_COLOR.value}, )
+
+    graduation_date = DateTime(
+        metadata={"description": PersonDescriptionEnum.GRADUATION_DATE.value},
+    )
 
 
 class PersonIdResponse(Schema):
@@ -65,8 +87,17 @@ class PersonResponse(Schema):
         metadata={"description": PersonDescriptionEnum.ADDRESS.value},
     )
 
-    active = Dict(
+    active = Boolean(
         metadata={"description": PersonDescriptionEnum.ACTIVE.value},
+    )
+
+    graduation_current = Nested(
+        Graduation,
+        metadata={"description": PersonDescriptionEnum.GRADUATION_CURRENT.value},
+    )
+
+    council_member = Boolean(
+        metadata={"description": PersonDescriptionEnum.COUNCIL_MEMBER.value},
     )
 
 
@@ -106,6 +137,10 @@ class NewPersonRequest(Schema):
 
     active = Boolean(
         metadata={"description": PersonDescriptionEnum.ACTIVE.value},
+    )
+
+    council_member = Boolean(
+        metadata={"description": PersonDescriptionEnum.COUNCIL_MEMBER.value},
     )
 
 
@@ -155,10 +190,16 @@ class UpdatePersonRequest(Schema):
         metadata={"description": PersonDescriptionEnum.ADDRESS.value},
     )
 
-    active = Dict(
+    active = Boolean(
         required=False,
         allow_none=True,
         metadata={"description": PersonDescriptionEnum.ACTIVE.value},
+    )
+
+    council_member = Boolean(
+        required=False,
+        allow_none=True,
+        metadata={"description": PersonDescriptionEnum.COUNCIL_MEMBER.value},
     )
 
 
@@ -171,3 +212,17 @@ class ProfileImagePersonResponse(Schema):
     File base64.
     """
     file_base64 = String()
+
+
+class GetAllPersonRequest(Schema):
+    active = Boolean(
+        required=False,
+        allow_none=True,
+        metadata={"description": PersonDescriptionEnum.ACTIVE.value},
+    )
+
+    council_member = Boolean(
+        required=False,
+        allow_none=True,
+        metadata={"description": PersonDescriptionEnum.COUNCIL_MEMBER.value},
+    )

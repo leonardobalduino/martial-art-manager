@@ -42,8 +42,8 @@ class PersonBo:
         person = Person.objects.find_by_id(person_id)
         return person
 
-    def find_all(self):
-        return Person.objects.find_all()
+    def find_all(self, filters):
+        return Person.objects.find_all(filters)
 
     def delete(self, person_id: any) -> Person:
         """

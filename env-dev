@@ -17,3 +17,6 @@ USER_EMAIL=admin@admin.com
 
 # CRYPTOGRAPHY
 CRYPTOGRAPHY_KEY=lk78Ylnfw3AL44dlZvMhDv1KG_4EmSkYEXvFuFakugc=
+
+# Upload
+UPLOAD_IMAGE_ALLOWED_EXTENSIONS="png, jpg, jpeg, svg"

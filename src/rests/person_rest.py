@@ -7,7 +7,7 @@ from .schemas.person_schema import (
     NewPersonRequest,
     UpdatePersonRequest,
     PersonResponse,
-    PersonIdResponse, ProfileImagePersonRequest, ProfileImagePersonResponse
+    PersonIdResponse, ProfileImagePersonRequest, ProfileImagePersonResponse, GetAllPersonRequest
 )
 from ..businesses.person_bo import PersonBo
 from ..configs.jwt_config import check_role
@@ -58,18 +58,19 @@ def find_by_id(person_id):
 
 
 @api.route("/", methods=["GET"])
+@api.arguments(GetAllPersonRequest, location="query")
 @api.response(
     status_code=HTTPStatus.OK,
     schema=PersonResponse(many=True),
     description="""
     In case of success, the application informs all persons in the system.""",
 )
-def find_all():
+def find_all(args):
     """
     Get all persons.
     """
     person_bo = PersonBo()
-    return person_bo.find_all()
+    return person_bo.find_all(args)
 
 
 @api.route("/<person_id>", methods=["PATCH"])
