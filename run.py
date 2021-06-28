@@ -1,5 +1,4 @@
 from datetime import datetime
-from datetime import timedelta
 from datetime import timezone
 
 from flask_jwt_extended import get_jwt, create_access_token, get_jwt_identity, set_access_cookies
