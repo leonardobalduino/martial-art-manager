@@ -29,8 +29,8 @@ class Person(Document):
     active = BooleanField()
     profile_image = StringField()
     biography = StringField()
-    graduation_current = Nested(GraduationHistory)
-    graduation_history = ListField(Nested(GraduationHistory))
+    graduation_current = DictField()
+    graduation_history = ListField(DictField())
     council_member = BooleanField()
 
     meta = {"queryset_class": PersonRepository}

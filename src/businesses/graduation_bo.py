@@ -1,4 +1,5 @@
 from ..models.graduation import Graduation
+from ..utils.exceptions import NotFoundException
 
 
 class GraduationBo:
@@ -24,13 +25,20 @@ class GraduationBo:
         base_graduation = self.find_by_id(graduation_id)
 
         for k, v in graduation.items():
-            if ignore_value_none:
-                if v is not None:
+            if hasattr(base_graduation, k):
+                if ignore_value_none:
+                    if v is not None:
+                        base_graduation[k] = v
+                else:
                     base_graduation[k] = v
-            else:
-                base_graduation[k] = v
 
         base_graduation.save()
+        self._update_person_graduation(base_graduation)
+
+    def _update_person_graduation(self, graduation: Graduation):
+        graduation.reload()
+        person_bo = self._get_instance_person_bo()
+        person_bo.update_person_graduation_current(graduation)
 
     def find_by_id(self, graduation_id: any) -> Graduation:
         """
@@ -47,4 +55,14 @@ class GraduationBo:
         @param graduation_id: It is the key of the object
         """
         graduation = Graduation.objects.find_by_id(graduation_id)
+
+        person_bo = self._get_instance_person_bo()
+        if person_bo.exists_by_graduation_current(graduation.id):
+            raise NotFoundException(message="There is(are) people registered with this graduation")
+
         graduation.delete()
+
+    def _get_instance_person_bo(self):
+        from .person_bo import PersonBo
+        person_bo = PersonBo()
+        return person_bo

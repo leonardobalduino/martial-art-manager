@@ -73,6 +73,22 @@ def find_all(args):
     return person_bo.find_all(args)
 
 
+@api.route("graduation-current/<graduation_current_id>", methods=["GET"])
+@api.response(
+    status_code=HTTPStatus.OK,
+    schema=PersonResponse(many=True),
+    description="""
+        In case of success, the application informs all persons
+        by current graduation in the system.""",
+)
+def find_by_graduation_current_id(graduation_current_id):
+    """
+    Find by graduation_current_id of the person.
+    """
+    person_bo = PersonBo()
+    return person_bo.find_by_graduation_current(graduation_current_id)
+
+
 @api.route("/<person_id>", methods=["PATCH"])
 @jwt_required()
 @api.arguments(UpdatePersonRequest, required=True,)

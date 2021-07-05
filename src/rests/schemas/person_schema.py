@@ -33,16 +33,29 @@ class PersonDescriptionEnum(Enum):
 
 
 class Graduation(Schema):
-    graduation_id = String(metadata={"description": PersonDescriptionEnum.GRADUATION_ID.value}, )
+    graduation_id = String(
+        metadata={"description": PersonDescriptionEnum.GRADUATION_ID.value},
+        default="",
+    )
 
-    name = String(metadata={"description": PersonDescriptionEnum.GRADUATION_NAME.value}, )
+    name = String(
+        metadata={"description": PersonDescriptionEnum.GRADUATION_NAME.value},
+        default="",
+    )
 
-    description = String(metadata={"description": PersonDescriptionEnum.GRADUATION_DESCRIPTION.value}, )
+    description = String(
+        metadata={"description": PersonDescriptionEnum.GRADUATION_DESCRIPTION.value},
+        default="",
+    )
 
-    color = String(metadata={"description": PersonDescriptionEnum.GRADUATION_COLOR.value}, )
+    color = String(
+        metadata={"description": PersonDescriptionEnum.GRADUATION_COLOR.value},
+        default="",
+    )
 
     graduation_date = DateTime(
         metadata={"description": PersonDescriptionEnum.GRADUATION_DATE.value},
+        default=None,
     )
 
 
@@ -149,6 +162,18 @@ class NewPersonRequest(Schema):
         metadata={"description": PersonDescriptionEnum.COUNCIL_MEMBER.value},
     )
 
+    biography = String(
+        metadata={"description": PersonDescriptionEnum.BIOGRAPHY.value},
+        required=False,
+        allow_none=True,
+    )
+
+    graduation_current_id = String(
+        metadata={"description": PersonDescriptionEnum.GRADUATION_CURRENT.value},
+        required=False,
+        allow_none=True,
+    )
+
 
 class UpdatePersonRequest(Schema):
     """
@@ -206,6 +231,12 @@ class UpdatePersonRequest(Schema):
         required=False,
         allow_none=True,
         metadata={"description": PersonDescriptionEnum.COUNCIL_MEMBER.value},
+    )
+
+    graduation_current_id = String(
+        metadata={"description": PersonDescriptionEnum.GRADUATION_CURRENT.value},
+        required=False,
+        allow_none=True,
     )
 
 
