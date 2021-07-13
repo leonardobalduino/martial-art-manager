@@ -90,12 +90,13 @@ class PersonBo:
 
         return image_base64
 
-    def _parse_gradution_to_dict(self, graduation: Graduation):
+    def _parse_gradution_to_dict(self, graduation: Graduation) -> dict:
         graduation_dict = {
             "name": graduation.name,
             "graduation_id": graduation.id,
             "description": graduation.description,
             "color": graduation.color,
+            "order": graduation.order,
         }
 
         return graduation_dict

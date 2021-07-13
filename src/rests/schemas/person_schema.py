@@ -263,3 +263,9 @@ class GetAllPersonRequest(Schema):
         allow_none=True,
         metadata={"description": PersonDescriptionEnum.COUNCIL_MEMBER.value},
     )
+
+    graduation_id = String(
+        required=False,
+        allow_none=True,
+        metadata={"description": PersonDescriptionEnum.GRADUATION_CURRENT.value},
+    )
