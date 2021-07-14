@@ -9,6 +9,7 @@ class PersonRepository(QuerySet):
 
     def find_all(self, filters: dict):
         order_by = "name"
+        order_2_by = ""
         query = Q()
         if filters.get("active") is not None:
             query &= Q(active=filters.get("active"))
@@ -16,12 +17,13 @@ class PersonRepository(QuerySet):
         if filters.get("council_member") is not None:
             query &= Q(council_member=filters.get("council_member"))
             order_by = "-graduation_current__order"
+            order_2_by = "name"
 
         if filters.get("graduation_id") is not None:
             graduation_id = parse_to_object_id(filters.get("graduation_id"))
             query &= Q(graduation_current__graduation_id=graduation_id)
 
-        return self.filter(query).order_by(order_by)
+        return self.filter(query).order_by(order_by, order_2_by)
 
     def find_by_graduation_current(self, graduation_current_id: any):
         pipeline = [
