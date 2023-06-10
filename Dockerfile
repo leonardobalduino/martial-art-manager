@@ -3,7 +3,7 @@
 #     Windows -> copy env-docker .env
 # After execute 'docker-compose up -d --build'
 
-FROM python:3.9-slim AS builder
+FROM python:3.11-slim
 
 RUN apt-get update -y
 RUN apt-get install build-essential  -y
