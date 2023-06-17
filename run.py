@@ -1,5 +1,4 @@
 from datetime import datetime
-from datetime import timedelta
 from datetime import timezone
 
 from flask_jwt_extended import get_jwt, create_access_token, get_jwt_identity, set_access_cookies
@@ -35,6 +34,9 @@ def refresh_expiring_jwts(response):
         target_timestamp = datetime.timestamp(
             now + get_jwt_access_token_expires()
         )
+        recused = response.status_code in [400, 401, 403, 500]
+        if recused is True:
+            return response
 
         if target_timestamp > exp_timestamp:
             current_user = get_jwt()

@@ -12,7 +12,7 @@ def _is_object_id(value: any):
         return False
 
 
-def _parse_to_object_id(value: any):
+def parse_to_object_id(value: any):
     if _is_object_id(value):
         return ObjectId(value)
     else:

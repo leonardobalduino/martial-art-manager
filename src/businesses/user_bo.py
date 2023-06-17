@@ -1,12 +1,15 @@
+from datetime import datetime
+from datetime import timezone
+
 from flask import jsonify
 
 from ..models.user import User
 from ..utils.cryptography import encrypt, decrypt
 from ..utils.enuns import Roles
 from ..utils.exceptions import UnAuthorizedException
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, get_jwt, get_jwt_identity
 
-from ..utils.settings import get_admin_user
+from ..utils.settings import get_admin_user, get_jwt_access_token_expires
 
 
 class UserBo:
@@ -89,19 +92,47 @@ class UserBo:
 
         return jsonify(access_token=access_token)
 
+    def renew(self,) -> str:
+        try:
+            exp_timestamp = get_jwt()["exp"]
+            now = datetime.now(timezone.utc)
+            target_timestamp = datetime.timestamp(
+                now + get_jwt_access_token_expires()
+            )
+
+            if target_timestamp > exp_timestamp:
+                current_user = get_jwt()
+                additional_claims = {
+                    "id": current_user.get("id"),
+                    "roles": current_user.get("roles"),
+                    "name": current_user.get("name"),
+                    "email": current_user.get("email"),
+                }
+                access_token = create_access_token(
+                    identity=get_jwt_identity(),
+                    additional_claims=additional_claims
+                )
+                return jsonify(access_token=access_token)
+            raise UnAuthorizedException()
+        except (RuntimeError, KeyError):
+            raise UnAuthorizedException()
+
     def create_user_admin(self):
-        admin = get_admin_user()
+        try:
+            admin = get_admin_user()
 
-        user_admin = User.objects.find_by_login(admin.get("login"))
-        if user_admin:
-            return
+            user_admin = User.objects.find_by_login(admin.get("login"))
+            if user_admin:
+                return
 
-        user = User()
-        user.name = admin.get("name")
-        user.login = admin.get("login")
-        user.password = encrypt(admin.get("password"))
-        user.email = admin.get("email")
-        user.active = True
-        user.roles = [Roles.ADMINISTRATOR.value]
-        user.save()
-        print("Created user admin")
+            user = User()
+            user.name = admin.get("name")
+            user.login = admin.get("login")
+            user.password = encrypt(admin.get("password"))
+            user.email = admin.get("email")
+            user.active = True
+            user.roles = [Roles.ADMINISTRATOR.value]
+            user.save()
+            print("Created user admin")
+        except Exception:
+            pass

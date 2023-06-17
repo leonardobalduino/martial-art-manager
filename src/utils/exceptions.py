@@ -31,3 +31,12 @@ class UnAuthorizedException(SystemException):
         super(UnAuthorizedException, self).__init__(
             code=401, message=message, errors=errors, http_code=401
         )
+
+
+class BadRequestException(SystemException):
+    def __init__(
+        self, message: str = None, errors: any = None,
+    ):
+        super(BadRequestException, self).__init__(
+            code=400, message=message, errors=errors, http_code=400
+        )

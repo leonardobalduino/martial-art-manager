@@ -4,10 +4,8 @@ from flask import jsonify
 from flask_jwt_extended import jwt_required, get_jwt
 
 from .schemas.user_schema import (
-    NewUserRequest,
-    UpdateUserRequest,
-    UserResponse,
-    UserIdResponse, AuthenticationRequest, AccessTokenResponse
+    AuthenticationRequest,
+    AccessTokenResponse
 )
 from ..businesses.user_bo import UserBo
 from ..configs.jwt_config import jwt_redis_block_list
@@ -52,3 +50,20 @@ def login():
     jti = get_jwt()["jti"]
     jwt_redis_block_list.set(jti, "", ex=get_jwt_access_token_expires())
     return jsonify(msg="Access token revoked")
+
+
+@api.route("/renew", methods=["GET"])
+@jwt_required()
+@api.response(
+    status_code=HTTPStatus.OK,
+    schema=AccessTokenResponse,
+    description="""
+    In case of success, the application informs the key that will identify
+     only user in the system.""",
+)
+def renew():
+    """
+    Authentication Renew.
+    """
+    user_bo = UserBo()
+    return user_bo.renew()

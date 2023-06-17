@@ -1,3 +1,5 @@
+FLASK_ENV=development
+
 # Connection
 DB_URI=mongodb://localhost:27017/db_mongo
 
@@ -6,7 +8,7 @@ JWT_SECRET_KEY=DoNotSeeThis
 JWT_ACCESS_TOKEN_EXPIRES=60
 
 # REDIS
-REDIS_HOST=redis
+REDIS_HOST=localhost
 REDIS_PORT=6379
 
 # USER ADMIN
@@ -17,3 +19,6 @@ USER_EMAIL=admin@admin.com
 
 # CRYPTOGRAPHY
 CRYPTOGRAPHY_KEY=lk78Ylnfw3AL44dlZvMhDv1KG_4EmSkYEXvFuFakugc=
+
+# Upload
+UPLOAD_IMAGE_ALLOWED_EXTENSIONS="png, jpg, jpeg, svg"
