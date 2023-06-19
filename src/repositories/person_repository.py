@@ -1,3 +1,5 @@
+import re
+
 from mongoengine import QuerySet, Q
 
 from src.repositories.base import find_by_id, parse_to_object_id
@@ -11,6 +13,13 @@ class PersonRepository(QuerySet):
         order_by = "name"
         order_2_by = ""
         query = Q()
+        if name := filters.get("name"):
+            query &= Q(name={
+                    "$regex": re.escape(name),
+                    "$options": "i",
+                }
+            )
+
         if filters.get("active") is not None:
             query &= Q(active=filters.get("active"))
 

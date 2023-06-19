@@ -252,6 +252,12 @@ class ProfileImagePersonResponse(Schema):
 
 
 class GetAllPersonRequest(Schema):
+    name = String(
+        required=False,
+        allow_none=True,
+        metadata={"description": PersonDescriptionEnum.NAME.value, "example": "Joe"},
+    )
+
     active = Boolean(
         required=False,
         allow_none=True,
